@@ -1,15 +1,15 @@
 import express from "express";
 import notes from "../routes/notes.routes.js";
+import env from "../helpers/env.js";
 const app = express();
-const port = 3001;
 
 export default async function start() {
   try {
-    app.listen(port, () => {
+    app.listen(process.env.PORT, () => {
       app.use(express.json());
 
       app.use("/", notes);
-      console.log(`dffdsf app listening on   port ${port}`);
+      console.log(`start app listening on port ${env.PORT}`);
     });
   } catch (e) {
     console.log("Server Error", e.message);
