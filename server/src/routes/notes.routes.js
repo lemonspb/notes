@@ -1,15 +1,7 @@
 import express from "express";
-import Notes from "../models/Notes.js";
+import { create, remove, edit } from "../controllers/notes.js";
 const router = express();
-
-router.post("/notes", async (req, res) => {
-  const notes = new Notes({
-    text: "vbf",
-    title: "1321321",
-    date: new Date(),
-  });
-  await notes.save();
-  res.status(201).json(notes);
-});
-
+router.post("/create", create);
+router.patch("/edit", edit);
+router.delete("/remove", remove);
 export default router;

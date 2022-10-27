@@ -8,7 +8,7 @@ export default async function start() {
     app.listen(process.env.PORT, () => {
       app.use(express.json());
 
-      app.use("/", notes);
+      app.use("/note", notes);
       console.log(`start app listening on port ${env.PORT}`);
     });
   } catch (e) {
