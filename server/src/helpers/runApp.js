@@ -1,5 +1,7 @@
 import express from "express";
-import notes from "../routes/notes.routes.js";
+import note from "../routes/notes.routes.js";
+import auth from "../routes/auth.routes.js";
+
 import env from "../helpers/env.js";
 const app = express();
 
@@ -7,7 +9,9 @@ export default async function start() {
   try {
     app.listen(process.env.PORT, () => {
       app.use(express.json());
-      app.use("/note", notes);
+      app.use("/note", note);
+      app.use("/auth", auth);
+
       console.log(`start app listening on port ${env.PORT}`);
     });
   } catch (e) {
