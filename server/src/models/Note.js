@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema, model, Types } = mongoose;
 
-const schema = new Schema({
+const note = new Schema({
   text: { type: String, default: "" },
   title: { type: String, default: "" },
   createdTime: { type: Date },
@@ -10,4 +10,4 @@ const schema = new Schema({
   owner: { type: Types.ObjectId, ref: "User" },
 });
 
-export default model("Note", schema);
+export default model("Note", note);

@@ -1,7 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-// import jwt from "jsonwebtoken";
-
+import { generateToken } from "../helpers/jwt.js";
 const register = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -14,13 +13,20 @@ const register = async (req, res) => {
     const user = new User({ email, password: hashedPassword });
 
     await user.save();
-    // const token = user.generateToken();
-    // const refreshToken = user.generateToken('2h');
-
     res.status(201).json({ message: "User create" });
   } catch (e) {
-    res.status(500).json({ message: "Что-то пошло не так, попробуйте снова" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-export { register };
+const login = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    const token = generateToken({ userId: user.id });
+    res.status(200).json({ token, userId: user.id });
+  } catch (e) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+export { register, login };

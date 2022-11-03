@@ -6,6 +6,7 @@ const create = async (req, res) => {
     const note = new Note({
       text: body.text,
       title: body.title,
+      owner: req.user.userId,
       createdTime: new Date(),
     });
     await note.save();
@@ -27,7 +28,7 @@ const getById = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const notes = await Note.find().limit().skip();
+    const notes = await Note.find({ owner: req.user.userId }).limit().skip();
     res.status(201).json(notes);
   } catch (e) {
     res.status(500).json({ message: "Something went wrong" });

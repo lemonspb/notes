@@ -6,3 +6,8 @@ export const registerRules = [
     .isLength({ min: 6 })
     .exists(),
 ];
+
+export const loginRules = [
+  check("email", "incorrect email").normalizeEmail().isEmail(),
+  check("password", "incorrect password").exists(),
+];
