@@ -32,6 +32,20 @@ export const getAllUserNotes = createAsyncThunk("note/getAll", async () => {
   }
 });
 
+export const getNoteById = createAsyncThunk(
+  "note/getById",
+  async (payload: string) => {
+    try {
+      const response = await Note.getById(payload);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+    }
+  }
+);
+
 const noteSlice = createSlice({
   name: "note",
   initialState: {
@@ -50,11 +64,15 @@ const noteSlice = createSlice({
         state.userNotesList = action.payload.map((note: NodeListResponse) => {
           return {
             title: note.title,
-            text: note.noteText,
             id: note._id,
             date: note.createdTime,
           };
         });
+      }
+    });
+    builder.addCase(getNoteById.fulfilled, (state, action) => {
+      if (action.payload) {
+        console.log(action.payload, "++");
       }
     });
   },

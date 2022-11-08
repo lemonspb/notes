@@ -1,9 +1,12 @@
 import styles from "./NoteItem.module.scss";
 
-function NoteItem(props: any) {
+type NoteItem = {
+  text: string;
+};
+
+function NoteItem(props: NoteItem) {
   return (
     <div className={styles.note}>
-      <div className={styles.title}>{props.title}</div>
       <div className={styles.text}>{props.text}</div>
     </div>
   );

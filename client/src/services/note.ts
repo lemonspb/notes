@@ -20,6 +20,10 @@ const getAll = (): Promise<AxiosResponse<[]>> => {
   return api.post(`note/all`);
 };
 
-const note = { create, getAll };
+const getById = (id: string): Promise<AxiosResponse<[]>> => {
+  return api.get(`note/${id}`);
+};
+
+const note = { create, getAll, getById };
 
 export default note;

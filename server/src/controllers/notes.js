@@ -28,8 +28,9 @@ const getById = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    console.log(req.user.userId, "______");
-    const notes = await Note.find({ owner: req.user.userId }).limit().skip();
+    const notes = await Note.find({ owner: req.user.userId }).select(
+      "title _id createdTime"
+    );
     res.status(200).json(notes);
   } catch (e) {
     res.status(500).json({ message: "Something went wrong" });

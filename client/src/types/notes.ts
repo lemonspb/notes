@@ -9,16 +9,12 @@ export type SavedNote = {
 
 export type UsertNoteItem = {
   title: string;
-  text: NoteItem[];
   id: string;
   date: Date;
 };
 
 export type NodeListResponse = {
   createdTime: Date;
-  noteText: NoteItem[];
-  owner: string;
   title: string;
-  __v: number;
   _id: string;
 };

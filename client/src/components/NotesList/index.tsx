@@ -1,15 +1,19 @@
 import styles from "./NoteList.module.scss";
 import NoteItem from "../NoteItem";
-function NotesList(props: any) {
+import { UsertNoteItem } from "../../types/notes";
+interface NodeList {
+  list: UsertNoteItem[];
+  getSelectNote: (id: string) => void;
+}
+
+function NotesList(props: NodeList) {
   return (
     <div className={styles.list}>
       {props.list.map((note: any) => {
         return (
-          <NoteItem
-            id={note.id}
-            onClick={() => props.getNoteById()}
-            title={note.title}
-          />
+          <div onClick={() => props.getSelectNote(note.id)}>
+            <NoteItem id={note.id} title={note.title} />
+          </div>
         );
       })}
     </div>

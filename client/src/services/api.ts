@@ -4,7 +4,7 @@ apiInstance.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
     if (config.headers)
       config.headers.Authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzYzNzQwY2FhYzcxZmUxMTMxNjlkMWEiLCJpYXQiOjE2Njc5MTE5NzEsImV4cCI6MTY2NzkxNTU3MX0.Lle-qbaJ0koplZr2rXVmA_svLsttlO_QnN-NgNKO4aQ";
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzYzNzQwY2FhYzcxZmUxMTMxNjlkMWEiLCJpYXQiOjE2Njc5MTYxMjQsImV4cCI6MTY2NzkxOTcyNH0.Yi7fh53X91FS_HEIwi2yS3mu0CiSrmd4pM4j-wKD3Xo";
     config.baseURL = import.meta.env.VITE_BASE_URL;
     return config;
   },
