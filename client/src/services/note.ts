@@ -23,7 +23,16 @@ const getAll = (): Promise<AxiosResponse<[]>> => {
 const getById = (id: string): Promise<AxiosResponse<NodeListResponse>> => {
   return api.get(`note/${id}`);
 };
+const update = (sendData: any): Promise<AxiosResponse<[]>> => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+  return api.patch(`/edit`, sendData, config);
+};
 
-const note = { create, getAll, getById };
+const note = { create, update, getAll, getById };
 
 export default note;

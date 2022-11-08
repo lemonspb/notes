@@ -4,12 +4,14 @@ import Header from "@editorjs/header";
 import styles from "./TextArea.module.scss";
 import { useAppDispatch } from "../../hooks";
 import { getCurrentNote } from "../../slices/note";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+
 const EDITTOR_HOLDER_ID = "editorjs";
 
 const Editor = (props: any) => {
   const dispatch = useAppDispatch();
   const ejInstance = useRef<EditorJS | null>(null);
-  const [editorData, setEditorData] = useState<any>();
   console.log(props.note, "_+_+");
   useEffect(() => {
     if (props.note.blocks) {
@@ -54,6 +56,13 @@ const Editor = (props: any) => {
 
   return (
     <div className={styles.editors}>
+      {props.note.date && (
+        <div className={styles.date}>
+          {format(new Date(props.note.date), "d MMMM Y г. в HH:mm", {
+            locale: ru,
+          })}
+        </div>
+      )}
       <div id={EDITTOR_HOLDER_ID}></div>
     </div>
   );

@@ -3,6 +3,7 @@
   padding: 10px;
   cursor: pointer;
   border-radius: 10px;
+  max-width: 400px;
   transition: all 300ms ease-in;
   &:hover {
     background-color: #e6f7ff;
@@ -14,8 +15,12 @@
   color: #595959;
 }
 .title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 600;
   color: #262626;
+  white-space: nowrap;
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }

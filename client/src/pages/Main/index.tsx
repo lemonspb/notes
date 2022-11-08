@@ -18,7 +18,7 @@ function Main() {
 
   const saveNote = () => {
     const title = note[0].data.text;
-
+    console.log(note, selectNote);
     let body: SavedNote = {
       title: title,
       savedNote: note,
