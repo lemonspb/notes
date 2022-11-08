@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema, model, Types } = mongoose;
 
 const note = new Schema({
-  text: { type: String, default: "" },
+  noteText: [{ id: String, types: String, data: {} }],
   title: { type: String, default: "" },
   createdTime: { type: Date },
   updatedTime: { type: Date },

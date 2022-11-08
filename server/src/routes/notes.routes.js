@@ -8,4 +8,5 @@ router.get("/:id", isAuth, getById);
 router.post("/all", isAuth, getAll);
 router.patch("/edit", isAuth, edit);
 router.delete("/remove/:id", isAuth, remove);
+
 export default router;

@@ -3,7 +3,7 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-
+  width: 100%;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -25,9 +25,8 @@ a:hover {
 }
 
 body {
+  width: 100%;
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -54,6 +53,18 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+.ce-toolbar__content {
+  width: 100%;
+  margin: 0;
+  max-width: auto;
+  margin-left: 50px;
+}
+.ce-block__content {
+  width: 100%;
+  margin: 0;
+  max-width: auto;
+  margin-left: 50px;
 }
 
 @media (prefers-color-scheme: light) {

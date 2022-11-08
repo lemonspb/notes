@@ -1,9 +1,12 @@
 import express from "express";
 import note from "../routes/notes.routes.js";
 import auth from "../routes/auth.routes.js";
-
 import env from "../helpers/env.js";
+import cors from "cors";
+
 const app = express();
+
+app.use(cors());
 
 export default async function start() {
   try {
