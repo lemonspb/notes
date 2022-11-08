@@ -9,7 +9,9 @@ import { SavedNote } from "../../types/notes";
 
 function Main() {
   const dispatch = useAppDispatch();
-  const { note, userNotesList } = useAppSelector((state) => state.note);
+  const { note, userNotesList, selectNote } = useAppSelector(
+    (state) => state.note
+  );
   useEffect(() => {
     dispatch(getAllUserNotes());
   }, []);
@@ -38,7 +40,7 @@ function Main() {
         <NotesList list={userNotesList} getSelectNote={getSelectNote} />
       </div>
       <div className={styles.main}>
-        <TextArea />
+        <TextArea note={selectNote} />
       </div>
     </div>
   );

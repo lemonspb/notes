@@ -19,7 +19,10 @@ const create = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    const note = await Note.findById(id);
+    const note = await Note.findById(id).select(
+      "title _id createdTime noteText"
+    );
+
     res.status(200).json(note);
   } catch (e) {
     res.status(500).json({ message: "Something went wrong" });
@@ -28,9 +31,11 @@ const getById = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const notes = await Note.find({ owner: req.user.userId }).select(
-      "title _id createdTime"
-    );
+    const notes = await Note.find({ owner: req.user.userId })
+      .select("title _id createdTime")
+      .sort({
+        createdTime: "desc",
+      });
     res.status(200).json(notes);
   } catch (e) {
     res.status(500).json({ message: "Something went wrong" });

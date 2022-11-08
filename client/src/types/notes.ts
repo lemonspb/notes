@@ -11,10 +11,12 @@ export type UsertNoteItem = {
   title: string;
   id: string;
   date: Date;
+  blocks?: NoteItem[];
 };
 
 export type NodeListResponse = {
   createdTime: Date;
   title: string;
   _id: string;
+  noteText?: NoteItem[];
 };

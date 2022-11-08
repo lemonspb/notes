@@ -1,6 +1,6 @@
 import api from "./api";
 import { AxiosResponse } from "axios";
-import { SavedNote } from "../types/notes";
+import { SavedNote, NodeListResponse } from "../types/notes";
 
 const create = (body: SavedNote): Promise<AxiosResponse<[]>> => {
   const config = {
@@ -20,7 +20,7 @@ const getAll = (): Promise<AxiosResponse<[]>> => {
   return api.post(`note/all`);
 };
 
-const getById = (id: string): Promise<AxiosResponse<[]>> => {
+const getById = (id: string): Promise<AxiosResponse<NodeListResponse>> => {
   return api.get(`note/${id}`);
 };
 

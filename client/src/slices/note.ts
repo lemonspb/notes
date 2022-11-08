@@ -38,6 +38,8 @@ export const getNoteById = createAsyncThunk(
     try {
       const response = await Note.getById(payload);
       if (response.data) {
+        console.log(response);
+
         return response.data;
       }
     } catch (e) {
@@ -51,6 +53,7 @@ const noteSlice = createSlice({
   initialState: {
     note: [] as NoteItem[],
     userNotesList: [] as UsertNoteItem[],
+    selectNote: {} as UsertNoteItem,
   },
   reducers: {
     getCurrentNote: (state, { payload }) => {
@@ -72,7 +75,12 @@ const noteSlice = createSlice({
     });
     builder.addCase(getNoteById.fulfilled, (state, action) => {
       if (action.payload) {
-        console.log(action.payload, "++");
+        state.selectNote = {
+          title: action.payload.title,
+          id: action.payload._id,
+          date: action.payload.createdTime,
+          blocks: action.payload.noteText,
+        };
       }
     });
   },

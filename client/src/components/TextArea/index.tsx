@@ -9,7 +9,13 @@ const EDITTOR_HOLDER_ID = "editorjs";
 const Editor = (props: any) => {
   const dispatch = useAppDispatch();
   const ejInstance = useRef<EditorJS | null>(null);
-  const [editorData, setEditorData] = useState<any>({ blocks: [] });
+  const [editorData, setEditorData] = useState<any>();
+  console.log(props.note, "_+_+");
+  useEffect(() => {
+    if (props.note.blocks) {
+      ejInstance.current?.render({ blocks: [...props.note.blocks] });
+    }
+  }, [props.note.blocks]);
 
   useEffect(() => {
     if (!ejInstance.current) {
@@ -23,7 +29,7 @@ const Editor = (props: any) => {
   const initEditor = () => {
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
-      data: editorData,
+      data: { blocks: [] },
       onReady: () => {
         ejInstance.current = editor;
       },

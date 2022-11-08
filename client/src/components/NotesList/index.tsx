@@ -9,11 +9,15 @@ interface NodeList {
 function NotesList(props: NodeList) {
   return (
     <div className={styles.list}>
-      {props.list.map((note: any) => {
+      {props.list.map((note: UsertNoteItem) => {
         return (
-          <div onClick={() => props.getSelectNote(note.id)}>
-            <NoteItem id={note.id} title={note.title} />
-          </div>
+          <NoteItem
+            id={note.id}
+            date={note.date}
+            title={note.title}
+            key={note.id}
+            getSelectNote={props.getSelectNote}
+          />
         );
       })}
     </div>
