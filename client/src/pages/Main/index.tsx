@@ -4,7 +4,12 @@ import TextArea from "../../components/TextArea";
 import Header from "../../components/Header";
 import styles from "./Main.module.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { noteCreate, getAllUserNotes, getNoteById } from "../../slices/note";
+import {
+  noteCreate,
+  getAllUserNotes,
+  getNoteById,
+  removeNote,
+} from "../../slices/note";
 import { SavedNote } from "../../types/notes";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -39,10 +44,17 @@ function Main() {
     navigaite(`/main?id=${id}`);
   };
 
+  const removeNoteByid = () => {
+    if (paramId) {
+      dispatch(removeNote(paramId));
+      navigaite(`/main`);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <Header />
+        <Header remove={removeNoteByid} />
       </div>
       <div className={styles.sidebar}>
         <div onClick={() => saveNote()}>сохранить</div>

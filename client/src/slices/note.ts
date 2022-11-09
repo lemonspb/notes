@@ -38,8 +38,21 @@ export const getNoteById = createAsyncThunk(
     try {
       const response = await Note.getById(payload);
       if (response.data) {
-        console.log(response);
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+    }
+  }
+);
 
+export const removeNote = createAsyncThunk(
+  "note/remove",
+  async (payload: string, thunkAPI) => {
+    try {
+      const response = await Note.removeById(payload);
+      if (response.data) {
+        thunkAPI.dispatch(getAllUserNotes());
         return response.data;
       }
     } catch (e) {
@@ -53,7 +66,7 @@ const noteSlice = createSlice({
   initialState: {
     note: [] as NoteItem[],
     userNotesList: [] as UsertNoteItem[],
-    selectNote: {} as UsertNoteItem,
+    selectNote: {} as UsertNoteItem | {},
   },
   reducers: {
     getCurrentNote: (state, { payload }) => {
@@ -61,7 +74,9 @@ const noteSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(noteCreate.fulfilled, (state, action) => {});
+    builder.addCase(removeNote.fulfilled, (state, action) => {
+      state.selectNote = {};
+    });
     builder.addCase(getAllUserNotes.fulfilled, (state, action) => {
       if (action.payload) {
         state.userNotesList = action.payload.map((note: NodeListResponse) => {

@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import EditorJS, { OutputData, EditorConfig } from "@editorjs/editorjs";
+import EditorJS, { OutputData } from "@editorjs/editorjs";
 import Header from "@editorjs/header";
+// @ts-ignore
+import List from "@editorjs/list";
+// @ts-ignore
+import Checklist from "@editorjs/checklist";
+
 import styles from "./TextArea.module.scss";
 import { useAppDispatch } from "../../hooks";
 import { getCurrentNote } from "../../slices/note";
@@ -26,14 +31,22 @@ const Editor = (props: any) => {
   }, []);
 
   useEffect(() => {
+    // if (isReady && !props.note.blocks) {
+    //   ejInstance.current?.render({ blocks: [] });
+    // }
     if (isReady && props.note.blocks) {
       ejInstance.current?.render({ blocks: props.note.blocks });
+      return;
+    }
+    if (isReady && !props.note.blocks) {
+      ejInstance.current?.clear();
     }
   }, [props.note.blocks, isReady]);
 
   const initEditor = () => {
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
+      data: { blocks: [] },
       onReady: () => {
         ejInstance.current = editor;
         setIsReady(true);
@@ -52,7 +65,10 @@ const Editor = (props: any) => {
       autofocus: true,
       tools: {
         header: Header,
+        list: List,
+        check: Checklist,
       },
+      placeholder: "Начните писать!",
     });
   };
 

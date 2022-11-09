@@ -33,6 +33,10 @@ const update = (sendData: any): Promise<AxiosResponse<[]>> => {
   return api.patch(`/edit`, sendData, config);
 };
 
-const note = { create, update, getAll, getById };
+const removeById = (id: string): Promise<AxiosResponse<[]>> => {
+  return api.delete(`note/remove/${id}`);
+};
+
+const note = { create, update, getAll, getById, removeById };
 
 export default note;
