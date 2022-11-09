@@ -1,13 +1,15 @@
 .note {
   box-sizing: border-box;
   padding: 10px;
+  margin: 5px 2px;
   cursor: pointer;
   border-radius: 10px;
   max-width: 400px;
   transition: all 300ms ease-in;
-  &:hover {
-    background-color: #e6f7ff;
-  }
+}
+.note_active {
+  transition: all 300ms ease-in;
+  background-color: #ffd666;
 }
 .text {
   font-size: 1rem;

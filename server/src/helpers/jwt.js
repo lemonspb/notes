@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import env from "../helpers/env.js";
 
-export const generateToken = (data, expiresIn = "1h") => {
+export const generateToken = (data, expiresIn = "10h") => {
   const options = {
     expiresIn,
   };

@@ -6,9 +6,13 @@ import styles from "./Main.module.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { noteCreate, getAllUserNotes, getNoteById } from "../../slices/note";
 import { SavedNote } from "../../types/notes";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Main() {
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const paramId = searchParams.get("id");
+  const navigaite = useNavigate();
   const { note, userNotesList, selectNote } = useAppSelector(
     (state) => state.note
   );
@@ -16,9 +20,14 @@ function Main() {
     dispatch(getAllUserNotes());
   }, []);
 
+  useEffect(() => {
+    if (paramId) {
+      dispatch(getNoteById(paramId));
+    }
+  }, [paramId, getNoteById, dispatch]);
+
   const saveNote = () => {
     const title = note[0].data.text;
-    console.log(note, selectNote);
     let body: SavedNote = {
       title: title,
       savedNote: note,
@@ -27,7 +36,7 @@ function Main() {
   };
 
   const getSelectNote = (id: string) => {
-    dispatch(getNoteById(id));
+    navigaite(`/main?id=${id}`);
   };
 
   return (
@@ -37,7 +46,11 @@ function Main() {
       </div>
       <div className={styles.sidebar}>
         <div onClick={() => saveNote()}>сохранить</div>
-        <NotesList list={userNotesList} getSelectNote={getSelectNote} />
+        <NotesList
+          activeId={paramId}
+          list={userNotesList}
+          getSelectNote={getSelectNote}
+        />
       </div>
       <div className={styles.main}>
         <TextArea note={selectNote} />
