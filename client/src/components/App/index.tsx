@@ -1,10 +1,10 @@
 import AppRouter from "@/router/AppRouter";
-import "./App.css";
+import styles from "./App.module.scss";
 import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
+    <div className={styles.app}>
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>

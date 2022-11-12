@@ -4,13 +4,13 @@ export interface NoteItem extends OutputBlockData {}
 
 export type SavedNote = {
   title: string;
-  savedNote: NoteItem[];
+  savedNote?: NoteItem[];
 };
 
 export type UsertNoteItem = {
-  title: string;
-  id: string;
-  date: Date;
+  title?: string;
+  id?: string;
+  date?: Date;
   blocks?: NoteItem[];
 };
 

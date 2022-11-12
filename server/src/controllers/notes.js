@@ -45,11 +45,12 @@ const getAll = async (req, res) => {
 const edit = async (req, res) => {
   try {
     const { id, noteText, title } = req.body;
-    const _id = id;
 
-    const updatedNote = await Note.findOneAndUpdate(_id, {
-      noteText,
-      title,
+    console.log(id, noteText, title);
+
+    const updatedNote = await Note.findByIdAndUpdate(id, {
+      noteText: noteText,
+      title: title,
       updatedTime: new Date(),
     });
     res.status(200).json(updatedNote);

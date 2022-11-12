@@ -9,18 +9,21 @@ import {
   getAllUserNotes,
   getNoteById,
   removeNote,
+  clearSelectNote,
+  noteUpdate,
 } from "../../slices/note";
 import { SavedNote } from "../../types/notes";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Main() {
   const dispatch = useAppDispatch();
+  const navigaite = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const paramId = searchParams.get("id");
-  const navigaite = useNavigate();
   const { note, userNotesList, selectNote } = useAppSelector(
     (state) => state.note
   );
+
   useEffect(() => {
     dispatch(getAllUserNotes());
   }, []);
@@ -29,10 +32,20 @@ function Main() {
     if (paramId) {
       dispatch(getNoteById(paramId));
     }
-  }, [paramId, getNoteById, dispatch]);
+  }, [paramId, getNoteById]);
 
   const saveNote = () => {
     const title = note[0].data.text;
+    if (paramId) {
+      dispatch(
+        noteUpdate({
+          id: paramId,
+          blocks: note,
+          title: title,
+        })
+      );
+      return;
+    }
     let body: SavedNote = {
       title: title,
       savedNote: note,
@@ -50,11 +63,15 @@ function Main() {
       navigaite(`/main`);
     }
   };
+  const createNewNote = () => {
+    navigaite(`/main`);
+    dispatch(clearSelectNote());
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <Header remove={removeNoteByid} />
+        <Header removeNote={removeNoteByid} createNewNote={createNewNote} />
       </div>
       <div className={styles.sidebar}>
         <div onClick={() => saveNote()}>сохранить</div>

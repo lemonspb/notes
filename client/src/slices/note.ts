@@ -6,11 +6,28 @@ import {
   UsertNoteItem,
   NodeListResponse,
 } from "../types/notes";
+import { v4 as uuidv4 } from "uuid";
+
 export const noteCreate = createAsyncThunk(
   "note/create",
   async (payload: SavedNote, thunkAPI) => {
     try {
       const response = await Note.create(payload);
+      if (response.data) {
+        thunkAPI.dispatch(getAllUserNotes());
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+    }
+  }
+);
+
+export const noteUpdate = createAsyncThunk(
+  "note/update",
+  async (payload: UsertNoteItem, thunkAPI) => {
+    try {
+      const response = await Note.update(payload);
       if (response.data) {
         thunkAPI.dispatch(getAllUserNotes());
         return response.data;
@@ -66,11 +83,23 @@ const noteSlice = createSlice({
   initialState: {
     note: [] as NoteItem[],
     userNotesList: [] as UsertNoteItem[],
-    selectNote: {} as UsertNoteItem | {},
+    selectNote: {} as UsertNoteItem,
   },
   reducers: {
     getCurrentNote: (state, { payload }) => {
       state.note = payload;
+    },
+
+    clearSelectNote: (state, payload) => {
+      state.userNotesList = [
+        {
+          title: "Новая метка",
+          id: uuidv4(),
+          date: new Date(),
+        },
+        ...state.userNotesList,
+      ];
+      state.selectNote = {};
     },
   },
   extraReducers: (builder) => {
@@ -101,6 +130,6 @@ const noteSlice = createSlice({
   },
 });
 
-export const { getCurrentNote } = noteSlice.actions;
+export const { getCurrentNote, clearSelectNote } = noteSlice.actions;
 
 export default noteSlice;

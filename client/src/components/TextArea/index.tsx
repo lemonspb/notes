@@ -31,15 +31,13 @@ const Editor = (props: any) => {
   }, []);
 
   useEffect(() => {
-    // if (isReady && !props.note.blocks) {
-    //   ejInstance.current?.render({ blocks: [] });
-    // }
     if (isReady && props.note.blocks) {
       ejInstance.current?.render({ blocks: props.note.blocks });
       return;
     }
     if (isReady && !props.note.blocks) {
       ejInstance.current?.clear();
+      ejInstance.current?.focus();
     }
   }, [props.note.blocks, isReady]);
 
@@ -61,6 +59,20 @@ const Editor = (props: any) => {
           .catch((error) => {
             console.log("Saving failed: ", error);
           });
+      },
+      i18n: {
+        messages: {
+          tools: {
+            warning: { Title: "Название", Message: "Сообщение" },
+            link: { "Add a link": "Вставьте ссылку" },
+          },
+          toolNames: {
+            Text: "Параграф",
+            Heading: "Заголовок",
+            List: "Список",
+            Checklist: "Лист проверки",
+          },
+        },
       },
       autofocus: true,
       tools: {

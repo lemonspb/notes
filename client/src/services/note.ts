@@ -1,6 +1,6 @@
 import api from "./api";
 import { AxiosResponse } from "axios";
-import { SavedNote, NodeListResponse } from "../types/notes";
+import { SavedNote, NodeListResponse, UsertNoteItem } from "../types/notes";
 
 const create = (body: SavedNote): Promise<AxiosResponse<[]>> => {
   const config = {
@@ -23,14 +23,19 @@ const getAll = (): Promise<AxiosResponse<[]>> => {
 const getById = (id: string): Promise<AxiosResponse<NodeListResponse>> => {
   return api.get(`note/${id}`);
 };
-const update = (sendData: any): Promise<AxiosResponse<[]>> => {
+const update = (body: UsertNoteItem): Promise<AxiosResponse<[]>> => {
   const config = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
   };
-  return api.patch(`/edit`, sendData, config);
+  const sendData = {
+    title: body.title,
+    noteText: body.blocks,
+    id: body.id,
+  };
+  return api.patch(`note/edit`, sendData, config);
 };
 
 const removeById = (id: string): Promise<AxiosResponse<[]>> => {

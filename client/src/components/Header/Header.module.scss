@@ -6,4 +6,33 @@
   box-shadow: 0 2px 8px #f0f1f2;
   height: 100%;
   width: 100%;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+
+.delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  &:hover {
+    background-color: #ffd666;
+  }
+}
+
+.edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  &:hover {
+    background-color: #ffd666;
+  }
 }
