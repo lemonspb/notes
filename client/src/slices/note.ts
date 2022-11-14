@@ -6,6 +6,7 @@ import {
   NodeListResponse,
   FavoriteRequest,
 } from "../types/notes";
+import { transformNoteListResponse } from "./utils/transfomNoteListResponse";
 import { v4 as uuidv4 } from "uuid";
 
 export const noteCreate = createAsyncThunk(
@@ -96,6 +97,7 @@ export const removeNote = createAsyncThunk(
 const noteSlice = createSlice({
   name: "note",
   initialState: {
+    userNotesListFavorites: [] as UsertNoteItem[],
     userNotesList: [] as UsertNoteItem[],
     selectNote: {} as UsertNoteItem,
   },
@@ -117,15 +119,16 @@ const noteSlice = createSlice({
     });
     builder.addCase(getAllUserNotes.fulfilled, (state, action) => {
       if (action.payload) {
-        state.userNotesList = action.payload.map((note: NodeListResponse) => {
-          return {
-            title: note.title,
-            id: note._id,
-            subTitle: note.subTitle,
-            createdDate: note.createdTime,
-            isFavorite: note.isFavorite,
-          };
-        });
+        state.userNotesListFavorites = action.payload
+          .filter((note: NodeListResponse) => note.isFavorite)
+          .map((note: NodeListResponse) => {
+            return transformNoteListResponse(note);
+          });
+        state.userNotesList = action.payload
+          .filter((note: NodeListResponse) => !note.isFavorite)
+          .map((note: NodeListResponse) => {
+            return transformNoteListResponse(note);
+          });
       }
     });
     builder.addCase(getNoteById.fulfilled, (state, action) => {

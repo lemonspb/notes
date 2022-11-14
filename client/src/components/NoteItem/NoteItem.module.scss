@@ -1,7 +1,7 @@
 .note {
   box-sizing: border-box;
   padding: 10px;
-  margin: 5px 2px;
+  margin: 8px 2px;
   cursor: pointer;
   border-radius: 10px;
   max-width: 400px;
@@ -11,18 +11,32 @@
   transition: all 300ms ease-in;
   background-color: rgba(52, 176, 233, 0.228);
 }
-.text {
-  font-size: 1rem;
+.subTitle {
+  font-size: 0.8rem;
   font-weight: 300;
-  color: #595959;
+  color: #8c8c8c;
+  display: flex;
+}
+.date {
+  font-size: 1rem;
+  color: #262626;
+  margin-right: 0.3rem;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .title {
   font-size: 1rem;
-  text-transform: uppercase;
   font-weight: 600;
   color: #262626;
   white-space: nowrap;
   overflow: hidden;
 
   text-overflow: ellipsis;
+}
+
+.favorite {
+  padding-right: 1rem;
 }

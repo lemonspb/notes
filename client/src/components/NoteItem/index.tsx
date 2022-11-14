@@ -2,11 +2,11 @@ import styles from "./NoteItem.module.scss";
 import { format } from "date-fns";
 import { UsertNoteItem } from "../../types/notes";
 import classNames from "classnames";
-
+import { FavoriteEmpty, FavoriteFull } from "../../assets/icons";
 interface NoteItem extends UsertNoteItem {
   getSelectNote: (id: string) => void;
   isActive: boolean;
-  setFavorite: (id: string) => void;
+  setFavorite: (id?: string, isFavorite?: boolean) => void;
 }
 
 function NoteItem(props: NoteItem) {
@@ -20,15 +20,22 @@ function NoteItem(props: NoteItem) {
       className={noteClasses}
       onClick={() => props.getSelectNote(props.id || "")}
     >
-      <div>{format(new Date(props.createdDate || ""), "MM.dd")} </div>
-      <div
-        className={styles.title}
-        onClick={() => props.setFavorite(props.id, props.isFavorite)}
-      >
-        {props.title}{" "}
+      <div className={styles.head}>
+        <div className={styles.title}>{props.title}</div>
+        <div
+          className={styles.favorite}
+          onClick={() => props.setFavorite(props.id, props.isFavorite)}
+        >
+          {props.isFavorite ? <FavoriteFull /> : <FavoriteEmpty />}
+        </div>
       </div>
-      <div>{props.subTitle}</div>
-      <div>{props.isFavorite ? "любимая заметочка" : "дурацкая заметочка"}</div>
+
+      <div className={styles.subTitle}>
+        <div className={styles.date}>
+          {format(new Date(props.createdDate || ""), "MM.dd")}{" "}
+        </div>
+        {props.subTitle}
+      </div>
     </div>
   );
 }

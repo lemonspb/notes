@@ -23,7 +23,9 @@ function Main() {
   const navigaite = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const paramId = searchParams.get("id");
-  const { userNotesList, selectNote } = useAppSelector((state) => state.note);
+  const { userNotesList, selectNote, userNotesListFavorites } = useAppSelector(
+    (state) => state.note
+  );
 
   useEffect(() => {
     dispatch(getAllUserNotes());
@@ -49,9 +51,8 @@ function Main() {
     await navigaite(`/main?id=${id}`);
   };
 
-  const handleFavorite = (id: string, isFavorite: boolean) => {
-    console.log(selectNote);
-    dispatch(noteSetFavorite({ id: id, isFavorite: !isFavorite }));
+  const handleFavorite = (id?: string, isFavorite?: boolean) => {
+    id && dispatch(noteSetFavorite({ id: id, isFavorite: !isFavorite }));
   };
 
   const saveNote = async (note: OutputBlockData[]) => {
@@ -95,6 +96,7 @@ function Main() {
         <NotesList
           activeId={paramId}
           list={userNotesList}
+          listFavorites={userNotesListFavorites}
           handleFavorite={handleFavorite}
           getSelectNote={getSelectNote}
         />
