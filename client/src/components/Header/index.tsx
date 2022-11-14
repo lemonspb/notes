@@ -8,11 +8,15 @@ interface Header {
 function Header(props: Header) {
   return (
     <div className={styles.header}>
-      <div onClick={() => props.removeNote()} className={styles.delete}>
-        <Trash />
+      <div className={styles.left}>
+        <div onClick={() => props.removeNote()} className={styles.delete}>
+          <Trash />
+        </div>
       </div>
-      <div className={styles.edit} onClick={() => props.createNewNote()}>
-        <Edit />
+      <div className={styles.right}>
+        <div className={styles.edit} onClick={() => props.createNewNote()}>
+          <Edit />
+        </div>
       </div>
     </div>
   );

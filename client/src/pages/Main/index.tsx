@@ -3,6 +3,8 @@ import NotesList from "../../components/NotesList";
 import TextArea from "../../components/TextArea";
 import Header from "../../components/Header";
 import styles from "./Main.module.scss";
+import { OutputBlockData } from "@editorjs/editorjs";
+
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import {
   noteCreate,
@@ -11,6 +13,7 @@ import {
   removeNote,
   clearSelectNote,
   noteUpdate,
+  noteSetFavorite,
 } from "../../slices/note";
 import { SavedNote } from "../../types/notes";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -20,9 +23,7 @@ function Main() {
   const navigaite = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const paramId = searchParams.get("id");
-  const { note, userNotesList, selectNote } = useAppSelector(
-    (state) => state.note
-  );
+  const { userNotesList, selectNote } = useAppSelector((state) => state.note);
 
   useEffect(() => {
     dispatch(getAllUserNotes());
@@ -32,29 +33,46 @@ function Main() {
     if (paramId) {
       dispatch(getNoteById(paramId));
     }
-  }, [paramId, getNoteById]);
+  }, [paramId]);
 
-  const saveNote = () => {
-    const title = note[0].data.text;
+  const setNoteTitle = (note: OutputBlockData[]) => {
+    return note[0]?.data.text || "Новая заметка";
+  };
+
+  const setNoteSubTitle = (note: OutputBlockData[]) => {
+    return (
+      (note.length > 0 && note[1]?.data.text) || "Нет дополнительного текста"
+    );
+  };
+
+  const getSelectNote = async (id: string) => {
+    await navigaite(`/main?id=${id}`);
+  };
+
+  const handleFavorite = (id: string, isFavorite: boolean) => {
+    console.log(selectNote);
+    dispatch(noteSetFavorite({ id: id, isFavorite: !isFavorite }));
+  };
+
+  const saveNote = async (note: OutputBlockData[]) => {
     if (paramId) {
-      dispatch(
+      await dispatch(
         noteUpdate({
           id: paramId,
           blocks: note,
-          title: title,
+          title: setNoteTitle(note),
+          subTitle: setNoteSubTitle(note),
         })
       );
       return;
     }
     let body: SavedNote = {
-      title: title,
+      title: setNoteTitle(note),
       savedNote: note,
+      subTitle: setNoteSubTitle(note),
     };
-    dispatch(noteCreate(body));
-  };
-
-  const getSelectNote = (id: string) => {
-    navigaite(`/main?id=${id}`);
+    const response: any = await dispatch(noteCreate(body));
+    getSelectNote(response.payload._id);
   };
 
   const removeNoteByid = () => {
@@ -74,15 +92,15 @@ function Main() {
         <Header removeNote={removeNoteByid} createNewNote={createNewNote} />
       </div>
       <div className={styles.sidebar}>
-        <div onClick={() => saveNote()}>сохранить</div>
         <NotesList
           activeId={paramId}
           list={userNotesList}
+          handleFavorite={handleFavorite}
           getSelectNote={getSelectNote}
         />
       </div>
       <div className={styles.main}>
-        <TextArea note={selectNote} />
+        <TextArea note={selectNote} saveNote={saveNote} />
       </div>
     </div>
   );

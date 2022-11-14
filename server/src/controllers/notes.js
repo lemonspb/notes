@@ -6,6 +6,7 @@ const create = async (req, res) => {
     const note = new Note({
       noteText: body.noteText,
       title: body.title,
+      subTitle: body.subTitle,
       owner: req.user.userId,
       createdTime: new Date(),
     });
@@ -20,7 +21,7 @@ const getById = async (req, res) => {
   try {
     const { id } = req.params;
     const note = await Note.findById(id).select(
-      "title _id createdTime noteText"
+      "title _id createdTime noteText updatedTime isFavorite"
     );
 
     res.status(200).json(note);
@@ -32,10 +33,14 @@ const getById = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     const notes = await Note.find({ owner: req.user.userId })
-      .select("title _id createdTime")
+      .select("title _id createdTime subTitle isFavorite")
+      .sort({
+        isFavorite: -1,
+      })
       .sort({
         createdTime: "desc",
       });
+
     res.status(200).json(notes);
   } catch (e) {
     res.status(500).json({ message: "Something went wrong" });
@@ -44,14 +49,26 @@ const getAll = async (req, res) => {
 
 const edit = async (req, res) => {
   try {
-    const { id, noteText, title } = req.body;
-
-    console.log(id, noteText, title);
+    const { id, noteText, title, subTitle } = req.body;
 
     const updatedNote = await Note.findByIdAndUpdate(id, {
       noteText: noteText,
       title: title,
+      subTitle: subTitle,
       updatedTime: new Date(),
+    });
+    res.status(200).json(updatedNote);
+  } catch (e) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+const setFavorite = async (req, res) => {
+  try {
+    const { id, isFavorite } = req.body;
+
+    const updatedNote = await Note.findByIdAndUpdate(id, {
+      isFavorite: isFavorite,
     });
     res.status(200).json(updatedNote);
   } catch (e) {
@@ -69,4 +86,4 @@ const remove = async (req, res) => {
   }
 };
 
-export { create, getById, getAll, edit, remove };
+export { create, getById, getAll, edit, setFavorite, remove };

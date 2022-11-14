@@ -17,12 +17,7 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { payload } = await dispatch(login(data));
-    if (payload && payload.token) {
-      navigate("/main");
-    }
-  };
+  const onSubmit: SubmitHandler<Inputs> = (data) => dispatch(login(data));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

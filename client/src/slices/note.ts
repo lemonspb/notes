@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Note from "../services/note";
 import {
   SavedNote,
-  NoteItem,
   UsertNoteItem,
   NodeListResponse,
+  FavoriteRequest,
 } from "../types/notes";
 import { v4 as uuidv4 } from "uuid";
 
@@ -28,6 +28,21 @@ export const noteUpdate = createAsyncThunk(
   async (payload: UsertNoteItem, thunkAPI) => {
     try {
       const response = await Note.update(payload);
+      if (response.data) {
+        thunkAPI.dispatch(getAllUserNotes());
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+    }
+  }
+);
+
+export const noteSetFavorite = createAsyncThunk(
+  "note/setFavorite",
+  async (payload: FavoriteRequest, thunkAPI) => {
+    try {
+      const response = await Note.setFavotite(payload);
       if (response.data) {
         thunkAPI.dispatch(getAllUserNotes());
         return response.data;
@@ -81,25 +96,19 @@ export const removeNote = createAsyncThunk(
 const noteSlice = createSlice({
   name: "note",
   initialState: {
-    note: [] as NoteItem[],
     userNotesList: [] as UsertNoteItem[],
     selectNote: {} as UsertNoteItem,
   },
   reducers: {
-    getCurrentNote: (state, { payload }) => {
-      state.note = payload;
-    },
-
-    clearSelectNote: (state, payload) => {
-      state.userNotesList = [
-        {
-          title: "Новая метка",
-          id: uuidv4(),
-          date: new Date(),
-        },
-        ...state.userNotesList,
-      ];
-      state.selectNote = {};
+    clearSelectNote: (state) => {
+      const newNote = {
+        title: "Новая метка",
+        id: uuidv4(),
+        subTitle: "Нет дополнительного текста",
+        createdDate: new Date(),
+      };
+      state.userNotesList = [newNote, ...state.userNotesList];
+      state.selectNote = newNote;
     },
   },
   extraReducers: (builder) => {
@@ -112,7 +121,9 @@ const noteSlice = createSlice({
           return {
             title: note.title,
             id: note._id,
-            date: note.createdTime,
+            subTitle: note.subTitle,
+            createdDate: note.createdTime,
+            isFavorite: note.isFavorite,
           };
         });
       }
@@ -122,14 +133,16 @@ const noteSlice = createSlice({
         state.selectNote = {
           title: action.payload.title,
           id: action.payload._id,
-          date: action.payload.createdTime,
+          createdDate: action.payload.createdTime,
+          updatedDate: action.payload.updatedTime,
           blocks: action.payload.noteText,
+          isFavorite: action.payload.isFavorite,
         };
       }
     });
   },
 });
 
-export const { getCurrentNote, clearSelectNote } = noteSlice.actions;
+export const { clearSelectNote } = noteSlice.actions;
 
 export default noteSlice;

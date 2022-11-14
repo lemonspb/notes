@@ -8,7 +8,7 @@
   width: 100%;
   display: flex;
   align-self: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .delete {
@@ -20,11 +20,19 @@
   height: 40px;
   border-radius: 100%;
   &:hover {
-    background-color: #ffd666;
+    background-color: rgba(52, 176, 233, 0.228);
   }
+}
+.left {
+  min-width: 300px;
+  width: 100%;
+}
+.right {
 }
 
 .edit {
+  align-self: flex-end;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,6 +41,6 @@
   height: 40px;
   border-radius: 100%;
   &:hover {
-    background-color: #ffd666;
+    background-color: rgba(52, 176, 233, 0.228);
   }
 }

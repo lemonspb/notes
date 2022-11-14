@@ -4,19 +4,33 @@ export interface NoteItem extends OutputBlockData {}
 
 export type SavedNote = {
   title: string;
-  savedNote?: NoteItem[];
+  subTitle?: string;
+  savedNote: NoteItem[];
 };
 
 export type UsertNoteItem = {
   title?: string;
+  subTitle?: string;
   id?: string;
-  date?: Date;
+  createdDate?: Date;
+  updatedDate?: Date;
+  isFavorite?: boolean;
   blocks?: NoteItem[];
 };
 
+export type FavoriteRequest = {
+  isFavorite: boolean;
+  id: string;
+};
+
 export type NodeListResponse = {
+  subTitle?: string;
+  updatedTime?: Date;
   createdTime: Date;
   title: string;
   _id: string;
+  isFavorite: boolean;
   noteText?: NoteItem[];
+  owner: string;
+  __v: number;
 };
