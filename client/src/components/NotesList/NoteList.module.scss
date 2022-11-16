@@ -5,6 +5,9 @@
 }
 
 .listFavoriteTitle {
+  display: flex;
+  align-items: center;
+
   color: #8c8c8c;
   font-weight: 600;
   padding-left: 0.5rem;
@@ -13,8 +16,15 @@
   padding-bottom: 0.5rem;
   border-bottom: solid rgba(0, 0, 0, 0.06);
 }
+.listFavoriteTitle span {
+  margin-left: 0.5rem;
+}
 
 .listFavorite {
   border-bottom: solid rgba(0, 0, 0, 0.06);
   margin-bottom: 1rem;
+  position: sticky;
+  top: 2px;
+  z-index: 2;
+  background-color: #ffff;
 }

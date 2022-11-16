@@ -1,13 +1,13 @@
 import styles from "./NoteList.module.scss";
 import NoteItem from "../NoteItem";
 import { UsertNoteItem } from "../../types/notes";
+import { PushPinFull } from "../../assets/icons";
+
 interface NodeList {
   list: UsertNoteItem[];
   listFavorites: UsertNoteItem[];
   getSelectNote: (id: string) => void;
-
   handleFavorite: (id?: string, isFavorite?: boolean) => void;
-
   activeId?: string | null;
 }
 
@@ -16,7 +16,9 @@ function NotesList(props: NodeList) {
     <div className={styles.list}>
       {props.listFavorites?.length ? (
         <div className={styles.listFavorite}>
-          <div className={styles.listFavoriteTitle}>Закреплено</div>
+          <div className={styles.listFavoriteTitle}>
+            <PushPinFull size={"15px"} /> <span>Закреплено</span>
+          </div>
           {props.listFavorites.map((note: UsertNoteItem) => {
             return (
               <NoteItem

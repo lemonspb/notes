@@ -40,7 +40,7 @@ const Editor = (props: Editor) => {
       {
         text: "Изменено",
         type: "updated",
-        date: props.note.updatedDate,
+        date: props.note.updatedDate || props.note.createdDate,
         visible: false,
       },
       {
@@ -174,7 +174,7 @@ const Editor = (props: Editor) => {
               date &&
               visible && (
                 <div onClick={() => handleDateType(type)}>
-                  {text}
+                  {text}&nbsp;
                   {format(new Date(date || 0), "d MMMM Y г. в HH:mm", {
                     locale: ru,
                   })}
