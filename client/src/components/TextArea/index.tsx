@@ -173,7 +173,10 @@ const Editor = (props: Editor) => {
             return (
               date &&
               visible && (
-                <div onClick={() => handleDateType(type)}>
+                <div
+                  className={styles.dateString}
+                  onClick={() => handleDateType(type)}
+                >
                   {text}&nbsp;
                   {format(new Date(date || 0), "d MMMM Y г. в HH:mm", {
                     locale: ru,
