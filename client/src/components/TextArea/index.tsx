@@ -28,6 +28,11 @@ type DateList = {
 const Editor = (props: Editor) => {
   const [isReady, setIsReady] = useState(false);
   const [dateList, setDateList] = useState<DateList[]>([]);
+  const [value, setValue] = useState<OutputData>();
+  const debouncedValue = useDebounce<OutputData | undefined>(value, 1000);
+  const ejInstance = useRef<any>(null);
+
+  console.log();
 
   useEffect(() => {
     setDateList([
@@ -51,10 +56,6 @@ const Editor = (props: Editor) => {
       },
     ]);
   }, [props.note.createdDate, props.note.updatedDate]);
-
-  const [value, setValue] = useState<OutputData>();
-  const debouncedValue = useDebounce<OutputData | undefined>(value, 1000);
-  const ejInstance = useRef<EditorJS | null>(null);
 
   const handleChange = (data: OutputData) => {
     setValue(data);
@@ -132,6 +133,7 @@ const Editor = (props: Editor) => {
         setIsReady(true);
       },
       onChange: async () => {
+        console.log(ejInstance?.current?.configuration.tools, "---");
         editor
           .save()
           .then((outputData: OutputData) => {

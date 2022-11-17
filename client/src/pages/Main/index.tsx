@@ -78,8 +78,13 @@ function Main() {
 
   const removeNoteByid = () => {
     if (paramId) {
+      // TODO: put in a separate function
+      const indexRemovedItem = userNotesList.findIndex(
+        (el) => el.id === paramId
+      );
+      const nextSelectedItem = userNotesList.at(indexRemovedItem + 1);
       dispatch(removeNote(paramId));
-      navigaite(`/main`);
+      navigaite(nextSelectedItem ? `/main?id=${nextSelectedItem.id}` : `/main`);
     }
   };
   const createNewNote = () => {
