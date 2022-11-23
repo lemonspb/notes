@@ -6,11 +6,10 @@ import cors from "cors";
 
 const app = express();
 
-app.use(cors());
-
 export default async function start() {
   try {
-    app.listen(process.env.PORT, () => {
+    app.listen(3001, () => {
+      app.use(cors());
       app.use(express.json());
       app.use("/note", note);
       app.use("/auth", auth);
