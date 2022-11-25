@@ -13,7 +13,7 @@ const register = async (req, res) => {
     const user = new User({ email, password: hashedPassword });
 
     await user.save();
-    res.status(201).json({ message: "User create" });
+    res.status(201).json({ message: "User create", userId: user._id });
   } catch (e) {
     res.status(500).json({ message: "Something went wrong" });
   }

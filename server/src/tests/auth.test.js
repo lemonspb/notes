@@ -1,4 +1,6 @@
-import { MongoMemoryReplSet } from "mongodb-memory-server";
+const { MongoMemoryServer } = require("mongodb-memory-server");
+import mongoose from "mongoose";
+
 import request from "supertest";
 import { MongoClient } from "mongodb";
 
@@ -7,25 +9,25 @@ import runMongo from "../helpers/mongo";
 
 let server;
 let mongoServer;
-let mongoose;
-
+let mongos;
+let dbUrl;
 // beforeEach(async () => {
 //   await mongoose.connect(process.env.MONGO);
 // });
 
 beforeAll(async () => {
-  mongoServer = await MongoMemoryReplSet.create({
-    replSet: { count: 4, storageEngine: "wiredTiger" },
+  mongoServer = await MongoMemoryServer.create();
+  dbUrl = mongoServer.getUri();
+  mongos = await mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   });
-  mongoose = await runMongo(await mongoServer.getUri());
   server = await app;
 });
 
 /* Closing database connection after each test. */
 afterEach(async () => {
-  await mongoose.connection.collections["users"].drop(() => {
-    console.log("drop maza fuck");
-  });
+  console.log(mongos.connection.collections);
   await mongoServer.stop();
 });
 
@@ -33,7 +35,7 @@ describe("POST /auth/register", () => {
   it("register user", async () => {
     const res = await request(server)
       .post("/auth/register")
-      .send({ email: "roma.skopenko@yandex.ru", password: "mishamisha123" });
+      .send({ email: "roma.skopenko@yandedx.ru", password: "mishamisha123" });
     expect(res.status).toBe(201);
   });
 });
