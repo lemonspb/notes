@@ -5,5 +5,6 @@ export default function runMongo() {
   return mongoose.connect(env.MONGO, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    dbName: "notes",
   });
 }
