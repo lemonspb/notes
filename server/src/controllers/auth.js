@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../helpers/jwt.js";
+import { sendMail } from "../helpers/mail.js";
 const register = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -25,6 +26,7 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
     const token = generateToken({ userId: user.id });
     res.status(200).json({ token, userId: user.id });
+    sendMail();
   } catch (e) {
     res.status(500).json({ message: "Something went wrong" });
   }
