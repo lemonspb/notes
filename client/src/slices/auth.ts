@@ -18,6 +18,20 @@ export const login = createAsyncThunk(
   }
 );
 
+export const registration = createAsyncThunk(
+  "auth/registration",
+  async (payload: Login, thunkAPI) => {
+    try {
+      const response = await Auth.registration(payload);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (e) {
+    } finally {
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {

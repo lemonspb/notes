@@ -1,15 +1,15 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../../slices/auth";
+import { registration } from "../../../slices/auth";
 import { useAppDispatch } from "../../../hooks";
-import styles from "./LoginForm.module.scss";
+import styles from "./RegistrationForm.module.scss";
 
 type Inputs = {
   email: string;
   password: string;
 };
 
-export default function LoginForm() {
+export default function RegistrationForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
@@ -17,7 +17,8 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => dispatch(login(data));
+  const onSubmit: SubmitHandler<Inputs> = (data) =>
+    dispatch(registration(data));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -42,7 +43,7 @@ export default function LoginForm() {
       </div>
 
       {errors.password && (
-        <span className={styles.errors}>Обязательные поля</span>
+        <span className={styles.errors}>This field is required</span>
       )}
       <button type="submit" className={styles.btn}>
         Отправить

@@ -7,7 +7,7 @@ import env from "../helpers/env.js";
 
 async function getTransporter() {
   let transporter;
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV === "production") {
     const testAccount = await createTestAccount();
     transporter = createTransport({
       host: "smtp.ethereal.email",
