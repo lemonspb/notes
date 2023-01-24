@@ -51,7 +51,7 @@ const setFavotite = (body: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-  };
+  };  
   return api.patch(`note/favorite`, body, config);
 };
 

@@ -21,7 +21,7 @@ apiInstance.interceptors.response.use(
     if (error.response.status === 401 || error.response.status === 403) {
       storage.remove("token");
     }
-    return error;
+    return Promise.reject(error);
   }
 );
 

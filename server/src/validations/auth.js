@@ -9,5 +9,5 @@ export const registerRules = [
 
 export const loginRules = [
   check("email", "incorrect email").normalizeEmail().isEmail(),
-  check("password", "incorrect password").exists(),
+  check("password", "incorrect password").isLength({ min: 6 }).exists(),
 ];

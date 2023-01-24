@@ -17,11 +17,16 @@ export default function RegistrationForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) =>
-    dispatch(registration(data));
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const response = await dispatch(registration(data)).unwrap();
+    if (response?.userId) {
+      navigate("/login");
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <h3>Регистрация</h3>
       <div className={styles.inputField}>
         <label className={styles.label} htmlFor="">
           Email
@@ -31,7 +36,6 @@ export default function RegistrationForm() {
           {...register("email", { required: true })}
         />
       </div>
-
       <div className={styles.inputField}>
         <label className={styles.label} htmlFor="">
           Пароль
@@ -41,7 +45,6 @@ export default function RegistrationForm() {
           {...register("password", { required: true })}
         />
       </div>
-
       {errors.password && (
         <span className={styles.errors}>This field is required</span>
       )}

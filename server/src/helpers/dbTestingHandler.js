@@ -14,7 +14,7 @@ export const dbConnect = async () => {
     dbName: "test",
   };
 
-  await mongoose.connect(dbUrl, mongooseOpts);
+  await mongoose.connect(dbUrl, mongooseOpts);  
 };
 
 export const dbDisconnect = async () => {

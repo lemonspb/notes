@@ -17,15 +17,22 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => dispatch(login(data));
-
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const response = await dispatch(login(data)).unwrap();
+    if (response?.token) {
+      navigate("/main");
+    }
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <h3>Авторизация</h3>
       <div className={styles.inputField}>
         <label className={styles.label} htmlFor="">
           Email
         </label>
         <input
+          type={"email"}
+          placeholder="Введите email"
           className={styles.input}
           {...register("email", { required: true })}
         />
@@ -36,6 +43,8 @@ export default function LoginForm() {
           Пароль
         </label>
         <input
+          type={"password"}
+          placeholder="Введите пароль"
           className={styles.input}
           {...register("password", { required: true })}
         />
