@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../../slices/auth";
 import { useAppDispatch } from "../../../hooks";
 import styles from "./LoginForm.module.scss";
+import { Link } from "react-router-dom";
 
 type Inputs = {
   email: string;
@@ -53,6 +54,9 @@ export default function LoginForm() {
       {errors.password && (
         <span className={styles.errors}>Обязательные поля</span>
       )}
+      <div className={styles.link}>
+        <Link to="/register">Зарегистроваться</Link>
+      </div>
       <button type="submit" className={styles.btn}>
         Отправить
       </button>
