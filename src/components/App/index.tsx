@@ -1,4 +1,4 @@
-import AppRouter from "@/router/AppRouter";
+import AppRouter from "../../router/AppRouter";
 import styles from "./App.module.scss";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
